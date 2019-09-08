@@ -12,7 +12,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class EnotWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {

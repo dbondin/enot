@@ -1,4 +1,4 @@
-package ru.applmath.enot.controllers;
+package ru.applmath.enot.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
