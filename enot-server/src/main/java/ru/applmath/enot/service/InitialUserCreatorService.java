@@ -3,6 +3,7 @@ package ru.applmath.enot.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ru.applmath.enot.configuration.EnotConfigurationProperties;
@@ -19,6 +20,9 @@ public class InitialUserCreatorService {
 	@Autowired
 	private EnotConfigurationProperties enotConfigurationProperties;
 	
+	@Autowired
+	private PasswordEncoder enotPasswordEncoder;
+	
 	public void createInitialUserIfRequired() {
 		
 		logger.info("Checking if any users exists");
@@ -29,7 +33,7 @@ public class InitialUserCreatorService {
 			
 			final EnotUser user = new EnotUser();
 			user.setName(enotConfigurationProperties.getDefaultUser().getName());
-			user.setPassword(enotConfigurationProperties.getDefaultUser().getPassword());
+			user.setPassword(enotPasswordEncoder.encode(enotConfigurationProperties.getDefaultUser().getPassword()));
 			user.setActive(true);
 			user.setAdmin(true);
 			enotUserService.save(user);
