@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
+import javax.persistence.PreUpdate;
 
 @MappedSuperclass
 public class AbstractEnotEntity implements EnotEntity {
@@ -21,7 +24,7 @@ public class AbstractEnotEntity implements EnotEntity {
 	@Column(name = "active", nullable = false, unique = false)
 	private boolean active;
 	
-	@Column(name = "created_timestamp", nullable = false, unique = false)
+	@Column(name = "created_timestamp", nullable = false, unique = false, updatable = false)
 	private Date createdTimestamp;
 	
 	@Column(name = "modified_timestamp", nullable = false, unique = false)
@@ -57,5 +60,18 @@ public class AbstractEnotEntity implements EnotEntity {
 
 	public void setModifiedTimestamp(Date modifiedTimestamp) {
 		this.modifiedTimestamp = modifiedTimestamp;
+	}
+	
+	@PrePersist
+	public void onPrePersist() {
+		final Date currentDate = new Date();
+		setCreatedTimestamp(currentDate);
+		setModifiedTimestamp(currentDate);
+	}
+
+	@PreUpdate
+	public void onPreUpdate() {
+		final Date currentDate = new Date();
+		setModifiedTimestamp(currentDate);
 	}
 }
